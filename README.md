@@ -38,7 +38,7 @@
   - [ ] Auto build and publish deb/rpms using packagecloud.io
   - [ ] Write tests for reasonable things
 
-  * What else should I add?
+  What else should I add? Add a ticket and let me know!
 
 # Development
 
