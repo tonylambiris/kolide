@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <title><% Name %> <% Version %></title>
+
+    <% if .Csrf %>
+    <meta name="_csrf" content="<% .Csrf %>">
+    <% end %>
+
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+
+    <script type="text/javascript" src="assets/js/gotalk.js"></script>
+    <script type="text/javascript" src="assets/js/jquery.js"></script>
+    <script type="text/javascript" src="assets/js/handlebars.js"></script>
+    <script type="text/javascript" src="assets/js/ace.js"></script>
+    <script type="text/javascript" src="assets/js/ace-sql.js"></script>
+    <script type="text/javascript" src="assets/js/ace-theme.js"></script>
+    <script type="text/javascript" src="assets/js/ace-tools.js"></script>
+    <script type="text/javascript" src="assets/js/pace.js"></script>
+    <script type="text/javascript" src="assets/js/list.js"></script>
+    <script type="text/javascript" src="assets/js/dataTables.js"></script>
+    <script type="text/javascript" src="assets/js/dataTables-fixedheader.js"></script>
+    <script type="text/javascript" src="assets/js/csv.js"></script>
+    <script type="text/javascript" src="assets/js/limp.js"></script>
+
+    <% if eq .Template "index" %>
+    <script type="text/javascript" src="assets/js/<% Name %>.js"></script>
+    <% end %>
+
+    <link rel="stylesheet" href="assets/css/grid.css">
+    <link rel="stylesheet" href="assets/css/font-awesome.css">
+    <link rel="stylesheet" href="assets/css/fonts.css">
+    <link rel="stylesheet" href="assets/css/<% Name %>.css">
+
+    <link rel="shortcut icon" href="assets/favicon.png" />
+  </head>
+
+  <% if eq .Template "index" %>
+    <% template "index" . %>
+  <% else %>
+    <% template "login" . %>
+  <% end %>
+</html>

@@ -1,0 +1,32 @@
+[session]
+name = "kolide"
+# types: cookie, redis
+type = "redis"
+# Change This
+Key = "change-this-ahAJDKFH876A*DS&R*SADf187@#$#%^$%^11+0"
+# size = 10
+network = "tcp"
+address = "127.0.0.1:6379"
+# password = ""
+
+[database]
+# postgres or sqlite
+type = "postgres"
+host = "127.0.0.1"
+port = "5432"
+username = "kolide"
+password = "kolide"
+database = "kolide"
+sslmode = "disable"
+sslcert = ""
+sslkey = ""
+
+[server]
+# enroll_secret = "kolidedev"
+query_timeout = "10s"
+enroll_secret = ""
+production = false
+debug = false
+address = ":8000"
+crt = "./tmp/kolide.crt"
+key = "./tmp/kolide.key"

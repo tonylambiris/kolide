@@ -1,0 +1,14 @@
+postgres:
+  image: postgres:9.5
+  environment:
+    POSTGRES_USER: kolide
+    POSTGRES_DB: kolide
+    POSTGRES_PASSWORD: kolide
+    PGDATA: /var/lib/postgresql/data/pgdata
+  ports:
+    - "5432:5432"
+
+redis:
+  image: redis:3-alpine
+  ports:
+    - "6379:6379"
