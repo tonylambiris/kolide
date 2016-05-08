@@ -8,7 +8,7 @@
   Kolide was designed to be extremely portable and performant while keeping the codebase 
   simple. I have a lot planned for Kolide so check back often! :)
 
-<img style="float:left;" src="https://raw.githubusercontent.com/mephux/kolide/master/kolide.gif?raw=true">
+<img style="float:left;" src="https://github.com/mephux/kolide/blob/master/kolide.gif?raw=true">
 
 # Kolide Rest API & OSquery Remote API
 
