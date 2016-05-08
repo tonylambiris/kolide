@@ -14,9 +14,3 @@ build:
     - ./bin/kolide --version
     # - make package
     # - bash -x ./scripts/package.sh
-  compose:
-    postgres:
-      image: postgres:9.4.5
-    environment:
-      - POSTGRES_USER=postgres
-
