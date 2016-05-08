@@ -1,4 +1,6 @@
-<img style="float:left;" height="244px" src="https://github.com/mephux/kolide/blob/master/kolide-banner.png?raw=true">
+<p align="center">
+<img align="center" height="244px" src="https://github.com/mephux/kolide/blob/master/kolide-banner.png?raw=true">
+</p>
 
 # Kolide
 
