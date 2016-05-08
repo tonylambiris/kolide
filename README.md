@@ -1,8 +1,8 @@
-[![Build Status](http://komanda.io:8080/api/badges/mephux/kolide/status.svg)](http://komanda.io:8080/mephux/kolide)
+<img style="float:left;" height="244px" src="https://github.com/mephux/kolide/blob/master/kolide-banner.png?raw=true">
 
 # Kolide
 
-<img style="float:left;" height="244px" src="https://github.com/mephux/kolide/blob/master/kolide-banner.png?raw=true">
+[![Build Status](http://komanda.io:8080/api/badges/mephux/kolide/status.svg)](http://komanda.io:8080/mephux/kolide)
 
   Kolide is an agentless osquery (https://osquery.io/) web interface and remote api server. 
   Kolide was designed to be extremely portable and performant while keeping the codebase 
