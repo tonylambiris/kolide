@@ -10,6 +10,7 @@ build:
   environment:
     - GO15VENDOREXPERIMENT=1
   commands:
+    - go get -u github.com/golang/lint/golint
     - make
     - ./bin/kolide --version
     # - make package
