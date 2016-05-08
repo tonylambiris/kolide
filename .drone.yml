@@ -11,6 +11,8 @@ build:
     - GO15VENDOREXPERIMENT=1
   commands:
     - go get -u github.com/golang/lint/golint
+    - go get github.com/jteeuwen/go-bindata/...
+    - go get github.com/elazarl/go-bindata-assetfs/...
     - make
     - ./bin/kolide --version
     # - make package
