@@ -1218,7 +1218,7 @@ body.login #login{
   left:50%;
   top:50%;
   margin:-32px 0 0 -32px;
-  z-index: 99999999999999;
+  z-index: 9999;
 }
 
 
