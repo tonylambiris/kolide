@@ -6,7 +6,7 @@
 
   Kolide is an agentless osquery (https://osquery.io/) web interface and remote api server. 
   Kolide was designed to be extremely portable (a single binary) and performant while keeping the codebase 
-  simple. I have a lot planned for Kolide so check back often! :)
+  simple. I have a lot planned for Kolide so check back soon! :)
 
 <img src="https://github.com/mephux/kolide/blob/master/kolide.gif?raw=true">
 
