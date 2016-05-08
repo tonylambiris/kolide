@@ -51,6 +51,53 @@
   * `make up` will run docker-compose and bootstrap the deps
   * `make down` will spin down and remove all deps
 
+## Running Kolide
+
+  ```
+usage: kolide --config=CONFIG [<flags>]
+
+Flags:
+      --help           Show context-sensitive help (also try
+                       --help-long and --help-man).
+      --debug          Enable debug mode.
+  -c, --config=CONFIG  Configuration file
+      --dev            Run in dev mode. (serve assets from disk)
+      --version        Show application version.
+  ```
+
+  The Kolide configuration file is required. Below is an example configuration file:
+
+  ```toml
+[session]
+name = "kolide"
+# types: cookie, redis
+type = "redis"
+network = "tcp"
+address = "127.0.0.1:6379"
+
+[database]
+# postgres or sqlite
+type = "postgres"
+host = "127.0.0.1"
+port = "5432"
+username = "kolide"
+password = "kolide"
+database = "kolide"
+sslmode = "disable"
+sslcert = ""
+sslkey = ""
+
+[server]
+# enroll_secret = "kolidedev"
+query_timeout = "10s"
+enroll_secret = ""
+production = false
+debug = false
+address = ":8000"
+crt = "./tmp/kolide.crt"
+key = "./tmp/kolide.key"
+  ```
+
 ## osqueryd
 
   ```bash
