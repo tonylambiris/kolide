@@ -10,7 +10,7 @@ build:
   environment:
     - GO15VENDOREXPERIMENT=1
   commands:
-    - make build
+    - make
     - ./bin/kolide --version
     # - make package
     # - bash -x ./scripts/package.sh
