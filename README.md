@@ -8,6 +8,8 @@
   Kolide was designed to be extremely portable and performant while keeping the codebase 
   simple. I have a lot planned for Kolide so check back often! :)
 
+<img style="float:left;" src="https://raw.githubusercontent.com/mephux/kolide/master/kolide-beta.gif?raw=true">
+
 # Kolide Rest API & OSquery Remote API
 
   Kolide has a rest api that uses jwt (https://jwt.io/) for authentication. The only exception
