@@ -1,6 +1,4 @@
-<p align="center">
-<img align="center" height="244px" src="https://github.com/mephux/kolide/blob/master/kolide-banner.png?raw=true">
-</p>
+<img style="float:left;" height="244px" src="https://github.com/mephux/kolide/blob/master/kolide-banner.png?raw=true">
 
 # Kolide
 
@@ -10,7 +8,7 @@
   Kolide was designed to be extremely portable and performant while keeping the codebase 
   simple. I have a lot planned for Kolide so check back often! :)
 
-<img style="float:left;" src="https://github.com/mephux/kolide/blob/master/kolide.gif?raw=true">
+<img align="center" src="https://github.com/mephux/kolide/blob/master/kolide.gif?raw=true">
 
 # Kolide Rest API & OSquery Remote API
 
