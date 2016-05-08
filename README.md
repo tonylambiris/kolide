@@ -66,4 +66,10 @@
     --tls_server_certs $CERT \
     --pack_delimiter /
   ```
+# Self-Promotion
 
+Like kolide? Follow the repository on
+[GitHub](https://github.com/mephux/kolide) and if
+you would like to stalk me, follow [mephux](http://dweb.io/) on
+[Twitter](http://twitter.com/mephux) and
+[GitHub](https://github.com/mephux).
