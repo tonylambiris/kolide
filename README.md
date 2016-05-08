@@ -24,19 +24,19 @@
 # TODO
 
   - [X] Database auth (salt/hash)
-  - [] LDAP support
+  - [ ] LDAP support
   - [X] Full OSquery Remote API Support
   - [X] Read/Write UI
   - [X] Basic saved queries and loading
   - [X] Websockets (live node updates)
   - [X] CI 
-  - [] Websockets (osquery logs)
-  - [] OSquery Config & Pack
-  - [] Node Editing
-  - [] Scheduled query UI
-  - [] Rules engine for alerting (slack, pagerduty etc..)
-  - [] Auto build and publish deb/rpms using packagecloud.io
-  - [] Write tests for reasonable things
+  - [ ] Websockets (osquery logs)
+  - [ ] OSquery Config & Pack
+  - [ ] Node Editing
+  - [ ] Scheduled query UI
+  - [ ] Rules engine for alerting (slack, pagerduty etc..)
+  - [ ] Auto build and publish deb/rpms using packagecloud.io
+  - [ ] Write tests for reasonable things
 
   * What else should I add?
 
