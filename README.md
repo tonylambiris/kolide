@@ -6,7 +6,6 @@
   and performant while also keeping a simple codebase for others to contribute to. I have a lot planned
   for Kolide so check back often! :)
 
-
 # Kolide Rest API & OSquery Remote API
 
   Kolide has a rest api that uses jwt (https://jwt.io/) for authentication. The only exception
@@ -21,6 +20,25 @@
   POST   | /api/v1/osquery/log    | `--logger_tls_endpoint`
   POST   | /api/v1/osquery/read   | `--distributed_tls_read_endpoint`
   POST   | /api/v1/osquery/write  | `--distributed_tls_write_endpoint`
+
+# TODO
+
+  [X] Database auth (salt/hash)
+  [] LDAP support
+  [X] Full OSquery Remote API Support
+  [X] Read/Write UI
+  [X] Basic saved queries and loading
+  [X] Websockets (live node updates)
+  [X] CI 
+  [] Websockets (osquery logs)
+  [] OSquery Config & Pack
+  [] Node Editing
+  [] Scheduled query UI
+  [] Rules engine for alerting (slack, pagerduty etc..)
+  [] Auto build and publish deb/rpms using packagecloud.io
+  [] Write tests for reasonable things
+
+  * What else should I add?
 
 # Development
 
