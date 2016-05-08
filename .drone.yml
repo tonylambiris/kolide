@@ -1,0 +1,22 @@
+git:
+  path: github.com/mephux/kolide
+  branch: master
+
+clone:
+  depth: 32767
+
+build:
+  image: mephux/docker-golang
+  environment:
+    - GO15VENDOREXPERIMENT=1
+  commands:
+    - make build
+    - ./bin/kolide --version
+    # - make package
+    # - bash -x ./scripts/package.sh
+  compose:
+    postgres:
+      image: postgres:9.4.5
+    environment:
+      - POSTGRES_USER=postgres
+
