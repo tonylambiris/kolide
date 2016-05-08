@@ -1,15 +1,19 @@
 package model
 
 import (
+	"encoding/json"
 	"errors"
 	"strings"
 	"time"
 
 	log "github.com/Sirupsen/logrus"
 	"github.com/gin-gonic/gin"
+	"github.com/mephux/kolide/shared/hub"
 	"github.com/mephux/kolide/shared/osquery"
 )
 
+// nodeUpdateStatus loop to keep node information current
+// this loop is used in database.go
 func nodeUpdateStatus() error {
 	nodes, err := AllNodes()
 
@@ -130,7 +134,20 @@ func FindAndUpdateNode(req *osquery.KeyReq) (*Node, error) {
 	// node.Updated = time.Now()
 	err = node.Update()
 
+	msg := hub.Message{
+		Type: "node",
+		Data: node,
+	}
+
+	hub.Websocket.Broadcast <- msg.JSON()
+
 	return node, err
+}
+
+// JSON node format
+func (n *Node) JSON() []byte {
+	b, _ := json.Marshal(n)
+	return b
 }
 
 // FindNodeByNodeKey node by node key which is also the osquery host id

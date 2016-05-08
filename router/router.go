@@ -14,6 +14,7 @@ import (
 	"github.com/mephux/kolide/router/middleware/requestlogger"
 	"github.com/mephux/kolide/router/middleware/session"
 	"github.com/mephux/kolide/router/v1"
+	"github.com/mephux/kolide/shared/hub"
 	"github.com/mephux/kolide/static"
 
 	"github.com/gin-gonic/contrib/expvar"
@@ -79,6 +80,9 @@ func Load(configuration *config.Config) http.Handler {
 
 	// register v1 routes
 	v1.Register(e, configuration)
+
+	// websockets
+	go hub.Websocket.Run()
 
 	return e
 }

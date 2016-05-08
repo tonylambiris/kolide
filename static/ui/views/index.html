@@ -134,7 +134,7 @@
   </script>
 
   <script id="node-template" type="text/x-handlebars-template">
-    <li data-os="{{os}}" class="node {{#if online}}online{{else}}offline{{/if}}" data-node-id="{{id}}">
+    <li class="node {{#if enabled}}online{{else}}offline{{/if}}" data-id="{{id}}" data-node-id="{{key}}">
 
     <i class="fa fa-circle status-icon"></i>
 
@@ -143,11 +143,11 @@
     </div>
 
     <div class="node-metadata">
-    <span class="node-node-id">{{ip}} / {{hostname}}</span>
+    <span class="node-node-id">{{address}} ({{formatDate updated "MMM MM, YY hh:mm:ss A"}})</span>
     </div>
 
     <span class="online-status" style="display:none;">
-    {{#if online}}1{{else}}0{{/if}}
+    {{#if enabled}}1{{else}}0{{/if}}
     </span>
 
     <span class="node-node-id" style="display:none;">{{id}}</span>

@@ -38,4 +38,6 @@ func Register(e *gin.Engine, configuration *config.Config) {
 	// g.GET("/nodes", v1.Nodes)
 	// g.PUT("/nodes/:id", v1.UpdateNode)
 
+	// websocket
+	g.GET("/websocket", v1.Websocket)
 }

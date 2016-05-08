@@ -4,7 +4,11 @@ import (
 	"net/http"
 	"time"
 
+	log "github.com/Sirupsen/logrus"
+
+	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
+	"github.com/mephux/kolide/shared/hub"
 )
 
 const (
@@ -28,4 +32,27 @@ func websocketUpgrade(w http.ResponseWriter, r *http.Request) (*websocket.Conn, 
 	}
 
 	return conn, nil
+}
+
+// Websocket route
+func Websocket(c *gin.Context) {
+	client, err := websocketUpgrade(c.Writer, c.Request)
+
+	if err != nil {
+		log.Warn(err)
+		return
+	}
+
+	defer client.Close()
+
+	conn := &hub.Connection{
+		Send: make(chan []byte, 256),
+		WS:   client,
+	}
+
+	hub.Websocket.Register <- conn
+
+	go conn.WritePump()
+
+	conn.ReadPump()
 }

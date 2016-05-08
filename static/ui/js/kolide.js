@@ -347,6 +347,16 @@ var Kolide = {
       this.nodeContextMenu = Handlebars.compile($("#node-context-menu-template").html());
       this.confirm = Handlebars.compile($("#confirm-template").html());
 
+      Handlebars.registerHelper("formatDate", function(datetime, format) {
+        if (moment) {
+          // can use other formats like 'lll' too
+          return moment(datetime).format(format);
+        }
+        else {
+          return datetime;
+        }
+      });
+
       Handlebars.registerHelper ('truncate', function(str, len) {
         if (str.length > len) {
           var new_str = str.substr (0, len + 1);
@@ -720,7 +730,8 @@ var Kolide = {
       this.self = this._build("editor");
 
       this.self.focus();
-      this.self.setValue("select * from listening_ports a join processes b on a.pid = b.pid;");
+      // this.self.setValue("select * from listening_ports a join processes b on a.pid = b.pid;");
+      this.self.setValue("select * from listening_ports join processes using (pid);");
 
       this.self.commands.addCommands([
         {
@@ -761,6 +772,36 @@ var Kolide = {
     $(document).ajaxSend(function(e, xhr, options) {
       xhr.setRequestHeader("X-CSRF-TOKEN", token);
     });
+
+    self.Socket = new WebSocket("wss://"+window.location.host+"/api/v1/websocket");
+
+    var updateNode = function(node) {
+      var item = $("li[data-node-id='" + node.data.key + "']");
+
+      if (item.length > 0) {
+        item.replaceWith(Kolide.Templates.node(node.data))
+      } else {
+        $("ul#nodes").append(Kolide.Templates.node(node.data))
+      }
+
+      delete (Kolide.nodeList)
+
+      Kolide.nodeList = new List('sidebar', {
+        valueNames: [
+          'node-name', 'node-ip', 'node-node-id', 'online-status'
+        ]
+      });
+    }
+
+    self.Socket.onclose = function(evt) {}
+
+    self.Socket.onmessage = function(evt) {
+      var json = JSON.parse(evt.data);
+
+      if (json.type === "node") {
+        updateNode(json);
+      }
+    }
 
     // if (!!window.EventSource) {
     // var source = new EventSource('/api/v1/query');
@@ -820,8 +861,12 @@ jQuery(document).ready(function($) {
 
   $(document).on("contextmenu", "li.node", function(event) {
     event.preventDefault();
+
+    $("ul.custom-menu").remove();
+
     var parent = $(this);
     var id = parent.attr("data-node-id");
+
     var menu = $(Kolide.Templates.nodeContextMenu({
       id: id
     })).appendTo("body")

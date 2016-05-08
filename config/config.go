@@ -8,10 +8,12 @@ import (
 	"github.com/mephux/common"
 )
 
+// Duration type
 type Duration struct {
 	time.Duration
 }
 
+// UnmarshalText custom duration type
 func (d *Duration) UnmarshalText(text []byte) error {
 	var err error
 	d.Duration, err = time.ParseDuration(string(text))

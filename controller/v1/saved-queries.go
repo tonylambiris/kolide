@@ -9,6 +9,7 @@ import (
 	"github.com/mephux/kolide/model"
 )
 
+// DeleteSavedQuery route
 func DeleteSavedQuery(c *gin.Context) {
 	id, err := strconv.ParseInt(c.Param("id"), 10, 64)
 
@@ -34,6 +35,7 @@ func DeleteSavedQuery(c *gin.Context) {
 	})
 }
 
+// SavedQueries route
 func SavedQueries(c *gin.Context) {
 	data, err := model.AllSavedQueries()
 
@@ -48,6 +50,7 @@ func SavedQueries(c *gin.Context) {
 	})
 }
 
+// CreateSavedQuery route
 func CreateSavedQuery(c *gin.Context) {
 	query := model.SavedQuery{}
 

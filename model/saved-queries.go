@@ -6,7 +6,7 @@ import (
 	log "github.com/Sirupsen/logrus"
 )
 
-// Query database table.
+// SavedQuery database table.
 type SavedQuery struct {
 	Id    int64  `json:"id"`
 	Name  string `xorm:"NOT NULL" from:"name" binding:"required"`
@@ -36,7 +36,7 @@ func LoadDefaultSavedQueries() error {
 
 	q2 := SavedQuery{
 		Name:  "All listening ports joined with processes",
-		Query: "select * from listening_ports a join processes b on a.pid = b.pid;",
+		Query: "select * from listening_ports join processes using (pid);",
 		Type:  "all",
 	}
 
@@ -125,7 +125,7 @@ FROM interface_details AS id, interface_addresses AS ia WHERE id.interface = ia.
 	return nil
 }
 
-// Find a saved query by its id.
+// FindSavedQueryById a saved query by its id.
 func FindSavedQueryById(id int64) (*SavedQuery, error) {
 	log.Debugf("Looking for saved query with id: %d", id)
 
@@ -143,7 +143,7 @@ func FindSavedQueryById(id int64) (*SavedQuery, error) {
 }
 
 // Delete a saved query
-func (self *SavedQuery) Delete() error {
+func (s *SavedQuery) Delete() error {
 	sess := x.NewSession()
 	defer sess.Close()
 
@@ -151,7 +151,7 @@ func (self *SavedQuery) Delete() error {
 		return err
 	}
 
-	if _, err := sess.Delete(&SavedQuery{Id: self.Id}); err != nil {
+	if _, err := sess.Delete(&SavedQuery{Id: s.Id}); err != nil {
 		log.Debug("Saved Query Delete Error: ", err)
 		return err
 	}
@@ -165,7 +165,7 @@ func (self *SavedQuery) Delete() error {
 	return nil
 }
 
-// Find all saved queries in the database.
+// AllSavedQueries returns all saved queries in the database.
 func AllSavedQueries() ([]*SavedQuery, error) {
 	var data []*SavedQuery
 	err := x.Find(&data)
@@ -173,8 +173,8 @@ func AllSavedQueries() ([]*SavedQuery, error) {
 	return data, err
 }
 
-// Insert a new saved query to the database.
-func NewSavedQuery(self SavedQuery) error {
+// NewSavedQuery will iadd a new saved query to the database.
+func NewSavedQuery(s SavedQuery) error {
 	sess := x.NewSession()
 	defer sess.Close()
 
@@ -182,7 +182,7 @@ func NewSavedQuery(self SavedQuery) error {
 		return err
 	}
 
-	if _, err := sess.Insert(self); err != nil {
+	if _, err := sess.Insert(s); err != nil {
 		sess.Rollback()
 		return err
 	}

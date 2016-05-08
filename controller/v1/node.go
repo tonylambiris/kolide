@@ -6,6 +6,7 @@ import (
 	"github.com/mephux/kolide/model"
 )
 
+// DeleteNode route
 func DeleteNode(c *gin.Context) {
 	key := c.Param("key")
 

@@ -8,12 +8,14 @@ import (
 	"github.com/mephux/kolide/shared/osquery"
 )
 
+// Control global
 var Control *control
 
 func init() {
 	Control = New()
 }
 
+// New query control context
 func New() *control {
 	return &control{
 		queries: make(map[string]*BatchQuery),
@@ -27,6 +29,7 @@ type control struct {
 	mutex   sync.RWMutex
 }
 
+// Remove batch from control
 func (c *control) Remove(batch *BatchQuery) {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
@@ -39,6 +42,7 @@ func (c *control) Remove(batch *BatchQuery) {
 	}
 }
 
+// PendingQueries lists all pending batch queries
 func (c *control) PendingQueries(node *model.Node) *osquery.ReadResp {
 	queries, ok := c.pending[node.Key]
 
@@ -57,6 +61,7 @@ func (c *control) PendingQueries(node *model.Node) *osquery.ReadResp {
 	return nil
 }
 
+// Submit batch query
 func (c *control) Submit(batch *BatchQuery) {
 	c.mutex.Lock()
 	defer c.mutex.Unlock()
@@ -81,6 +86,7 @@ func (c *control) Submit(batch *BatchQuery) {
 	}
 }
 
+// AddResponse to control context
 func (c *control) AddResponse(node *model.Node, response *osquery.WriteReq) {
 	c.mutex.RLock()
 	defer c.mutex.RUnlock()
@@ -101,7 +107,7 @@ func (c *control) AddResponse(node *model.Node, response *osquery.WriteReq) {
 
 			log.Debugf("Batch Done (id=%d)", id)
 		} else {
-			log.Errorf("Missing Query Batch (id=%d)", id)
+			log.Errorf("Missing Query Batch (id=%s)", id)
 		}
 
 	}

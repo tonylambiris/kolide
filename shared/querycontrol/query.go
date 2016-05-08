@@ -9,11 +9,7 @@ import (
 	"github.com/mephux/kolide/model"
 )
 
-var (
-	// TIMEOUT for query/batch processing
-	TIMEOUT = 10 * time.Second
-)
-
+// QueryResult return structure
 type QueryResult struct {
 	Node     *model.Node `json:"node"`
 	Response interface{} `json:"results"`
@@ -26,9 +22,11 @@ type BatchQuery struct {
 	// map of node key -> Query
 	Queries map[string]*Query
 
-	wg sync.WaitGroup
+	wg    sync.WaitGroup
+	mutex sync.RWMutex
 }
 
+// NewBatchQuery context
 func NewBatchQuery(request string, nodes []*model.Node) *BatchQuery {
 	id := uuid.NewV4().String()
 	queries := make(map[string]*Query)
@@ -44,7 +42,11 @@ func NewBatchQuery(request string, nodes []*model.Node) *BatchQuery {
 	}
 }
 
+// Run a batch query with a timeout
 func (q *BatchQuery) Run(timeout time.Duration) map[string]*QueryResult {
+	// q.mutex.Lock()
+	// defer q.mutex.Unlock()
+
 	results := make(map[string]*QueryResult)
 
 	for _, query := range q.Queries {
@@ -65,6 +67,7 @@ func (q *BatchQuery) Run(timeout time.Duration) map[string]*QueryResult {
 	return results
 }
 
+// Done returns the batch query back to the controller
 func (q *BatchQuery) Done(nodeKey string, result interface{}) error {
 
 	query, ok := q.Queries[nodeKey]
@@ -77,6 +80,7 @@ func (q *BatchQuery) Done(nodeKey string, result interface{}) error {
 	return fmt.Errorf("No node key found for id=%s key=%s", q.ID, nodeKey)
 }
 
+// Query structure for batch query
 type Query struct {
 	ID      string
 	Node    *model.Node
@@ -86,6 +90,7 @@ type Query struct {
 	Done chan bool
 }
 
+// NewQuery returns a new query structure
 func NewQuery(id string, node *model.Node, request string) *Query {
 	return &Query{
 		ID:      id,
@@ -95,6 +100,7 @@ func NewQuery(id string, node *model.Node, request string) *Query {
 	}
 }
 
+// WaitForResults using the passed timeout
 func (q *Query) WaitForResults(timeout time.Duration) *QueryResult {
 
 	timedOut := false
@@ -119,6 +125,7 @@ func (q *Query) WaitForResults(timeout time.Duration) *QueryResult {
 	}
 }
 
+// Finish close the batch query channels
 func (q *Query) Finish(result interface{}) {
 	q.Result = result
 	q.Done <- true
