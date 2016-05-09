@@ -131,6 +131,7 @@ func FindAndUpdateNode(req *osquery.KeyReq) (*Node, error) {
 	}
 
 	node.Address = req.Address
+	node.Enabled = true
 	// node.Updated = time.Now()
 	err = node.Update()
 
