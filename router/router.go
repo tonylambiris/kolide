@@ -16,6 +16,7 @@ import (
 	"github.com/mephux/kolide/router/v1"
 	"github.com/mephux/kolide/shared/hub"
 	"github.com/mephux/kolide/static"
+	"github.com/mephux/kolide/version"
 
 	"github.com/gin-gonic/contrib/expvar"
 	"github.com/gin-gonic/contrib/sessions"
@@ -43,23 +44,23 @@ func Load(configuration *config.Config) http.Handler {
 
 	e.Use(requestlogger.New(log.StandardLogger(), time.RFC3339, false))
 
-	if configuration.Session.Type == "cookie" {
-		store := sessions.NewCookieStore([]byte(configuration.Session.Key))
-		e.Use(sessions.Sessions(configuration.Session.Name, store))
+	// if configuration.Session.Type == "cookie" {
+	// store := sessions.NewCookieStore([]byte(configuration.Session.Key))
+	// e.Use(sessions.Sessions(configuration.Session.Name, store))
 
-	} else if configuration.Session.Type == "redis" {
-		store, err := sessions.NewRedisStore(configuration.Session.Size,
-			configuration.Session.Network, configuration.Session.Address,
-			configuration.Session.Password, []byte(configuration.Session.Key))
+	// } else if configuration.Session.Type == "redis" {
+	store, err := sessions.NewRedisStore(configuration.Session.Size,
+		configuration.Session.Network, configuration.Session.Address,
+		configuration.Session.Password, []byte(configuration.Session.Key))
 
-		if err != nil {
-			log.Fatal(err)
-		}
-
-		e.Use(sessions.Sessions(configuration.Session.Name, store))
-	} else {
-		log.Fatalf("unknown session type: %s", configuration.Session.Type)
+	if err != nil {
+		log.Fatal(err)
 	}
+
+	e.Use(sessions.Sessions(version.Name, store))
+	// } else {
+	// log.Fatalf("unknown session type: %s", configuration.Session.Type)
+	// }
 
 	if configuration.Server.Production {
 		log.Info("Loading Assets: MEMORY")

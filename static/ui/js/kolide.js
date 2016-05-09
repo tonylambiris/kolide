@@ -5,6 +5,36 @@ var Kolide = {
   table: false,
   fixedTable: false,
 
+  selectedNodes: {},
+
+  updateSelectedStatus: function() {
+    var self = this;
+    var html = "";
+
+    if ($("#header .title").length > 0) {
+
+      for (item in Kolide.selectedNodes) {
+
+        if (Kolide.selectedNodes[item]) {
+          var data = {
+            name: item,
+            type: "node"
+          };
+
+          html += Kolide.Templates.querySelectHeader(data);
+        }
+      }
+
+      if (html.length <= 0) {
+        html = "Query All Nodes";
+      } else {
+        html = "Query: " + html;
+      }
+
+      $("#header .title").html(html);
+    }
+  },
+
   FormatQuery: function(query) {
     query = query.replace(/\-\-.*$/gm, '');
     query = query.replace(/(\r\n|\n|\r)/gm, " ")
@@ -308,9 +338,30 @@ var Kolide = {
 
   Loading: {
     options: {
-      ajax: false,
-      document: false,
-      eventLag: true
+      catchupTime: 100,
+      initialRate: .03,
+      minTime: 250,
+      ghostTime: 100,
+      maxProgressPerFrame: 20,
+      easeFactor: 1.25,
+      startOnPageLoad: true,
+      restartOnPushState: true,
+      restartOnRequestAfter: 500,
+      target: 'body',
+      elements: {
+        checkInterval: 100,
+        selectors: ['body']
+      },
+      eventLag: {
+        minSamples: 10,
+        sampleCount: 3,
+        lagThreshold: 3
+      },
+      ajax: {
+        trackMethods: ['GET', 'POST', 'DELETE'],
+        trackWebSockets: true,
+        ignoreURLs: []
+      }
     },
     start: function() {
       this.self = Pace.start(this.options);
@@ -346,6 +397,8 @@ var Kolide = {
       this.loadQuery = Handlebars.compile($("#load-query-template").html());
       this.nodeContextMenu = Handlebars.compile($("#node-context-menu-template").html());
       this.confirm = Handlebars.compile($("#confirm-template").html());
+
+      this.querySelectHeader = Handlebars.compile($("#query-selected-header").html());
 
       Handlebars.registerHelper("formatDate", function(datetime, format) {
         if (moment) {
@@ -667,7 +720,19 @@ var Kolide = {
     },
 
     Run: function(type, sql, callback) {
-      var id = "all";
+      var all = true;
+
+      var nodes = [];
+
+      for (node in Kolide.selectedNodes) {
+        if (Kolide.selectedNodes[node]) {
+          nodes.push(node);
+        }
+      }
+
+      if (nodes.length > 0) {
+        all = false;
+      }
 
       $.ajax({
         url: "/api/v1/query",
@@ -676,23 +741,19 @@ var Kolide = {
         contentType: "application/json",
         timeout: 30 * 1000,
         data: JSON.stringify({
-          nodes: [
-            "word",
-            "cool"
-          ],
-          all: true,
+          nodes: nodes,
+          all: all,
           sql: sql
         }),
         success: function(data) {
           Kolide.Loading.done();
-
-          // console.log(data);
 
           if (typeof callback === "function") {
             return callback(data, null);
           }
 
         }, error: function(a, b, c) {
+          console.log(a,b,c);
           return callback(null, b);
         }
       })
@@ -778,6 +839,16 @@ var Kolide = {
     var updateNode = function(node) {
       var item = $("li[data-node-id='" + node.data.key + "']");
 
+      var selected = false;
+
+      if (Kolide.selectedNodes.hasOwnProperty(node.data.key)) {
+        if (Kolide.selectedNodes[node.data.key])  {
+          selected = true;
+        }
+      }
+
+      node.data.selected = selected;
+
       if (item.length > 0) {
         item.replaceWith(Kolide.Templates.node(node.data))
       } else {
@@ -837,27 +908,30 @@ jQuery(document).ready(function($) {
     }
   });
 
-  // $(document).on("click", "li.node", function(e) {
-  // e.preventDefault();
+  $(document).on("click", "li.node", function(e) {
+    e.preventDefault();
 
-  // var name = $(this).find("span.node-name").text();
-  // var id = $(this).attr("data-node-id");
+    var name = $(this).find("span.node-name").text();
+    var id = $(this).attr("data-node-id");
 
+    if ($(this).hasClass("online")) {
+      if ($(this).hasClass("current")) {
 
-  // if ($(this).hasClass("online")) {
-  // if ($(this).hasClass("current")) {
-  // $("li.node").removeClass("current");
-  // Kolide.Node.close();
-  // } else {
-  // Kolide.Node.open(name, id);
-  // $("li.node").removeClass("current");
-  // $(this).addClass("current");
-  // }
+        $("li.node").removeClass("current");
+        Kolide.selectedNodes[id] = false;
+      } else {
 
-  // } else {
-  // Kolide.Flash.error("Node (" + name + ") is current offline.");
-  // }
-  // });
+        $("li.node").removeClass("current");
+        $(this).addClass("current");
+        Kolide.selectedNodes[id] = true;
+      }
+
+    } else {
+      Kolide.Flash.error("Node (" + name + ") is current offline.");
+    }
+
+    Kolide.updateSelectedStatus();
+  });
 
   $(document).on("contextmenu", "li.node", function(event) {
     event.preventDefault();

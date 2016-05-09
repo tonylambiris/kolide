@@ -1392,3 +1392,21 @@ div.system-information-row span.system-information-value {
 }
 
 /* @end */
+
+span.query-select-tag{
+    top: 0px;
+    margin-right: 5px;
+    position: relative;
+    background-color: #07F;
+    color: #fff;
+    font-size: 0.7em;
+    padding: 4px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    vertical-align: bottom;
+    /* text-shadow: 0 1px 0 rgba(0, 0, 0, 0.74); */
+    /* border-bottom: 3px solid #419AFF; */
+    border: 1px solid rgba(0, 0, 0, 0.14);
+}
+

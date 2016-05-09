@@ -1,25 +1,21 @@
 [session]
-name = "kolide"
-# types: cookie, redis
-type = "redis"
 # Change This
-Key = "change-this-ahAJDKFH876A*DS&R*SADf187@#$#%^$%^11+0"
-# size = 10
+key = "change-this-ahAJDKFH876A*DS&R*SADf187@#$#%^$%^11+0"
+size = 10
 network = "tcp"
 address = "127.0.0.1:6379"
-# password = ""
+password = ""
 
 [database]
 # postgres or sqlite
 type = "postgres"
-host = "127.0.0.1"
-port = "5432"
+address = "127.0.0.1:5432"
 username = "kolide"
 password = "kolide"
 database = "kolide"
-sslmode = "disable"
-sslcert = ""
-sslkey = ""
+ssl = "disable"
+cert = ""
+key = ""
 
 [server]
 # enroll_secret = "kolidedev"

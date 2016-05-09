@@ -21,16 +21,30 @@ func Query(c *gin.Context) {
 		return
 	}
 
-	nodes, err := model.AllNodes()
+	var nodes []*model.Node
 
-	if err != nil {
-		helpers.JsonError(c, 500, err)
-		return
+	var err error
+
+	if query.All {
+		nodes, err = model.AllNodes()
+
+		if err != nil {
+			helpers.JsonError(c, 500, err)
+			return
+		}
+	} else if len(query.Nodes) > 0 {
+
+		for _, n := range query.Nodes {
+			if node, err := model.FindNodeByNodeKey(n); err != nil {
+				continue
+			} else {
+				nodes = append(nodes, node)
+			}
+
+		}
 	}
 
 	batch := querycontrol.NewBatchQuery(query.Sql, nodes)
-
-	// spew.Dump(query.Timeout.Duration, timeout)
 
 	results := batch.Run(timeout)
 

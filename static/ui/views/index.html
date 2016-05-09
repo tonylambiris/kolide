@@ -134,7 +134,7 @@
   </script>
 
   <script id="node-template" type="text/x-handlebars-template">
-    <li class="node {{#if enabled}}online{{else}}offline{{/if}}" data-id="{{id}}" data-node-id="{{key}}">
+    <li class="node {{#if selected}}current{{/if}} {{#if enabled}}online{{else}}offline{{/if}}" data-id="{{id}}" data-node-id="{{key}}">
 
     <i class="fa fa-circle status-icon"></i>
 
@@ -143,7 +143,7 @@
     </div>
 
     <div class="node-metadata">
-    <span class="node-node-id">{{address}} ({{formatDate updated "MMM MM, YY hh:mm:ss A"}})</span>
+    <span class="node-node-id">{{address}} ({{formatDate updated "MMM MM, YYYY hh:mm:ss A"}})</span>
     </div>
 
     <span class="online-status" style="display:none;">
@@ -152,6 +152,12 @@
 
     <span class="node-node-id" style="display:none;">{{id}}</span>
     </li>
+  </script>
+
+  <script id="query-selected-header" type="text/x-handlebars-template">
+    <span class="query-select-tag" data-type={{type}}>
+    {{truncate name 20}}
+    </span>
   </script>
 
   <script id="tables-template" type="text/x-handlebars-template">

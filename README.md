@@ -4,9 +4,10 @@
 
 [![Build Status](http://komanda.io:8080/api/badges/mephux/kolide/status.svg)](http://komanda.io:8080/mephux/kolide)
 
-  Kolide is an agentless osquery (https://osquery.io/) web interface and remote api server. 
-  Kolide was designed to be extremely portable (a single binary) and performant while keeping the codebase 
-  simple. I have a lot planned for Kolide so check back soon or follow me on [@mephux](http://twitter.com/mephux).
+  Kolide is an agentless osquery (https://osquery.io/) web interface and remote api server. Kolide uses the osquery
+  remote apis to do ad-hoc distributed queries, collection, process and view scheduled queries (packs) and manage 
+  osqueryd configurations. Kolide was designed to be extremely portable (a single binary) and performant while keeping 
+  the codebase simple. I have a lot planned for Kolide so check back soon or follow me on [@mephux](http://twitter.com/mephux).
 
 <img src="https://github.com/mephux/kolide/blob/master/kolide.gif?raw=true">
 
@@ -50,6 +51,12 @@
 
   * `make up` will run docker-compose and bootstrap the deps
   * `make down` will spin down and remove all deps
+
+## Certs/Openssl
+
+  `make certs-remote cn=kolide.io`
+
+  This will drop a kolide.crt and kolide.key into ./tmp and copy them to /tmp
 
 ## Running Kolide
 

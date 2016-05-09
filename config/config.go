@@ -28,22 +28,22 @@ type Config struct {
 }
 
 type session struct {
-	Name     string
-	Type     string
-	Key      string
-	Size     int
-	Network  string
-	Address  string
-	Password string
+	Key           string
+	EncryptionKey string `toml:"encryption_key"`
+	Size          int
+	Network       string
+	Address       string
+	Password      string
 }
 
 type database struct {
-	Host     string
-	Port     string
+	Address  string
 	Username string
 	Password string
 	Database string
-	SSLMode  string
+	SSL      string
+	Crt      string
+	Key      string
 }
 
 type server struct {
@@ -56,21 +56,15 @@ type server struct {
 	EnrollSecret string `toml:"enroll_secret"`
 }
 
-var (
-	// DefaultSessionName to use for all session keys
-	DefaultSessionName = "kolide_session"
-
-	// DefaultCookieName to use for all cookies
-	DefaultCookieName = "kolide_session"
-)
-
 // Default will return a default configuration
 func Default(debug, production bool) *Config {
 	return &Config{
 		Session: &session{
-			Name: DefaultCookieName,
-			Type: "cookie",
-			Key:  string(common.RandomCreateBytes(50)),
+			Size:     10,
+			Network:  "tcp",
+			Address:  ":6379",
+			Password: "",
+			Key:      string(common.RandomCreateBytes(50)),
 		},
 		Database: &database{},
 		Server: &server{

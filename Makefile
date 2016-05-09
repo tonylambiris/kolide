@@ -58,10 +58,12 @@ test:
 certs:
 	mkdir -p tmp
 	openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout tmp/${NAME}.key -out tmp/${NAME}.crt
+	cp -R ./tmp/* /tmp/
 
-cert-remote:
+certs-remote:
 	mkdir -p tmp
-	openssl req -x509 -sha256 -nodes -days 365 -subj "/C=us/ST=ks/L=kolide/O=kolide/CN=209.6.37.74" -newkey rsa:2048 -keyout tmp/${NAME}.key -out tmp/${NAME}.crt 
+	openssl req -x509 -sha256 -nodes -days 365 -subj "/C=us/ST=ks/L=kolide/O=kolide/CN=${cn}" -newkey rsa:2048 -keyout tmp/${NAME}.key -out tmp/${NAME}.crt 
+	cp -R ./tmp/* /tmp/
 
 # docker dev
 up:

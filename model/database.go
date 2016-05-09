@@ -28,10 +28,9 @@ func init() {
 // NewDatabase will create, connect return a postgres connection pool
 func NewDatabase(c *config.Config) (*xorm.Engine, error) {
 
-	dbC := fmt.Sprintf("postgres://%s:%s@%s:%s/%s?sslmode=%s",
+	dbC := fmt.Sprintf("postgres://%s:%s@%s/%s?sslmode=%s",
 		c.Database.Username, c.Database.Password,
-		c.Database.Host, c.Database.Port,
-		c.Database.Database, c.Database.SSLMode)
+		c.Database.Address, c.Database.Database, c.Database.SSL)
 
 	engine, err := xorm.NewEngine("postgres", dbC)
 

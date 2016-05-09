@@ -6,6 +6,9 @@ var (
 	// Name of application
 	Name = "kolide"
 
+	// Description of application
+	Description = "osquery command and control"
+
 	// VersionMajor is for an API incompatible changes
 	VersionMajor = 0
 
@@ -14,7 +17,7 @@ var (
 	VersionMinor = 1
 
 	// VersionPatch is for backwards-compatible bug fixes
-	VersionPatch = 0
+	VersionPatch = 5
 
 	// VersionBuild holds the git commit that was compiled.
 	// This will be filled in by the compiler.
