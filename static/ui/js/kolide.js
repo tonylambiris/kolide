@@ -911,18 +911,20 @@ jQuery(document).ready(function($) {
   $(document).on("click", "li.node", function(e) {
     e.preventDefault();
 
+    var self = $(this);
     var name = $(this).find("span.node-name").text();
     var id = $(this).attr("data-node-id");
 
-    if ($(this).hasClass("online")) {
-      if ($(this).hasClass("current")) {
+    if (self.hasClass("online")) {
+      if (self.hasClass("current")) {
 
-        $("li.node").removeClass("current");
+        self.removeClass("current");
         Kolide.selectedNodes[id] = false;
       } else {
 
-        $("li.node").removeClass("current");
-        $(this).addClass("current");
+        self.removeClass("current");
+        self.addClass("current");
+
         Kolide.selectedNodes[id] = true;
       }
 

@@ -45,12 +45,30 @@
   - [ ] Auto build and publish deb/rpms using packagecloud.io
   - [ ] Write tests for reasonable things
 
-# Development
+# Building / Development
 
-  The easiest way to start writing code is to use docker/docker-compose.
+  1. To build Kolide from the source code yourself you need to have a working 
+  Go environment with [version 1.5 or greater installed](http://golang.org/doc/install).
 
-  * `make up` will run docker-compose and bootstrap the deps
-  * `make down` will spin down and remove all deps
+  2. Get the code into your $GOPATH
+
+  `GO15VENDOREXPERIMENT=1 go get github.com/mephux/kolide`
+
+  or
+
+  `git clone https://github.com/mephux/kolide.git`
+
+
+  3. Install build/dev dependencies.
+
+  `make deps`
+
+  4. Start postgres and redis
+    
+    The easiest way to start writing code is to use docker/docker-compose.
+
+    * `make up` will run docker-compose and bootstrap the deps
+    * `make down` will spin down and remove all deps
 
 ## Certs/Openssl
 

@@ -95,13 +95,13 @@ func (c *control) AddResponse(node *model.Node, response *osquery.WriteReq) {
 
 	for id, response := range response.Queries {
 		batch, ok := c.queries[id]
-		log.Debugf("Batch Results for %s (id=%d) ", nodeKey, id)
+		log.Debugf("Batch Results for %s (id=%s) ", nodeKey, id)
 
 		if ok {
 			err := batch.Done(nodeKey, response)
 
 			if err != nil {
-				log.Errorf("Batch Failure (id=%d): %s", id, err)
+				log.Errorf("Batch Failure (id=%s): %s", id, err)
 				return
 			}
 

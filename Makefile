@@ -32,15 +32,17 @@ generate: cleanGoGenerate
 	@echo "Running go generate..."
 	@go generate $$(go list ./... | grep -v /vendor/)
 
+deps: 
+	@echo "Installing build deps"
+	go get -u github.com/golang/lint/golint
+	go get github.com/jteeuwen/go-bindata/...
+	go get github.com/elazarl/go-bindata-assetfs/...
+
 lint:
 	@go vet  $$(go list ./... | grep -v /vendor/)
 	@for pkg in $$(go list ./... |grep -v /vendor/ |grep -v /kuber/) ; do \
 		golint -min_confidence=1 $$pkg ; \
 		done
-
-client: clientDeps
-	@echo "Building client..."
-	@cd client && gulp prod
 
 package: setup strip rpm64
 
