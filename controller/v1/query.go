@@ -26,19 +26,24 @@ func Query(c *gin.Context) {
 	var err error
 
 	if query.All {
-		nodes, err = model.AllNodes()
+		nodes, err = model.AllNodes(&model.AllNodeOptions{
+			OnlyEnabled: true,
+		})
 
 		if err != nil {
 			helpers.JsonError(c, 500, err)
 			return
 		}
+
 	} else if len(query.Nodes) > 0 {
 
 		for _, n := range query.Nodes {
 			if node, err := model.FindNodeByNodeKey(n); err != nil {
 				continue
 			} else {
-				nodes = append(nodes, node)
+				if node.Enabled {
+					nodes = append(nodes, node)
+				}
 			}
 
 		}

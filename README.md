@@ -81,41 +81,55 @@
   ```
 usage: kolide --config=CONFIG [<flags>]
 
+osquery command and control
+
 Flags:
-      --help           Show context-sensitive help (also try
-                       --help-long and --help-man).
-      --debug          Enable debug mode.
-  -c, --config=CONFIG  Configuration file
-      --dev            Run in dev mode. (serve assets from disk)
-      --version        Show application version.
+      --help                     Show context-sensitive help (also try --help-long and --help-man).
+      --debug                    Enable debug mode.
+  -q, --quiet                    Remove all output logging
+      --dev                      enable dev mode (serve assets from disk)
+  -c, --config=CONFIG            configuration file
+      --production               enable production mode
+      --address=:8000            web server network address
+      --enroll-secret=secret     osquery enroll secret
+      --db-address=:5432         database network address
+      --db-username=kolide       database username
+      --db-password=secret       database password
+      --db-database=kolide       database database
+      --redis-address=:6379      redis network address
+      --redis-protocol="tcp"     redis network protocol
+      --redis-size=10            redis maximum number of idle connections
+      --redis-password=secret    redis password
+      --redis-secret-key=secret  redis secret key
+      --version                  Show application version.
   ```
 
   The Kolide configuration file is required. Below is an example configuration file:
 
   ```toml
 [session]
-name = "kolide"
-# types: cookie, redis
-type = "redis"
+# Change This
+key = "change-this-ahAJDKFH876A*DS&R*SADf187@#$#%^$%^11+0"
+size = 10
 network = "tcp"
 address = "127.0.0.1:6379"
+password = ""
 
 [database]
 # postgres or sqlite
 type = "postgres"
-host = "127.0.0.1"
-port = "5432"
+address = "127.0.0.1:5432"
 username = "kolide"
 password = "kolide"
 database = "kolide"
-sslmode = "disable"
-sslcert = ""
-sslkey = ""
+ssl = "disable"
+cert = ""
+key = ""
 
 [server]
 # enroll_secret = "kolidedev"
-query_timeout = "10s"
 enroll_secret = ""
+query_timeout = "20s"
 production = false
 debug = false
 address = ":8000"

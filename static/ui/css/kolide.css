@@ -408,7 +408,7 @@ border-radius: 100px;
   border-bottom: 1px solid #EAEAEA;
 }
 
-#envdb-query {
+#kolide-query {
   position: absolute;
   display: block;
   top: 35px;
@@ -419,7 +419,7 @@ border-radius: 100px;
   border-bottom: 1px solid #EAEAEA;
 }
 
-#envdb-query div.envdb-control{
+#kolide-query div.kolide-control{
   position: absolute;
   display: block;
   left: 0;
@@ -430,11 +430,15 @@ border-radius: 100px;
   /* line-height: 46px; */
 }
 
-#envdb-query div.envdb-control a.button{
+a.load-query {
+  margin-left: 0;
+}
+
+#kolide-query div.kolide-control a.button{
   margin-top: 8px;
 }
 
-#envdb-query div.envdb-control a.button:first-child{
+#kolide-query div.kolide-control a.button:first-child{
   margin-left: 10px;
 }
 
@@ -510,7 +514,7 @@ border-radius: 100px;
   right: 0;
   bottom: 0;
   background: rgba(245, 248, 249, 0.62);
-  /* background: rgba(245, 248, 249, 0.62) url(../images/envdb.png) no-repeat center; */
+  /* background: rgba(245, 248, 249, 0.62) url(../images/kolide.png) no-repeat center; */
 
   overflow: auto;
 }
@@ -1129,8 +1133,6 @@ ul#queries li div.query{
 .custom-menu li{
   height: 35px;
   line-height: 35px;
-  padding-left: 10px;
-  padding-right: 10px;
   border-bottom: 1px solid #E2DEDE;
 }
 
@@ -1150,6 +1152,8 @@ ul#queries li div.query{
 }
 
 .custom-menu li a{
+  padding-left: 10px;
+  padding-right: 10px;
   display: block;
   text-decoration: none;
   color: #000;

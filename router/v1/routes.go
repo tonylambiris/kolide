@@ -34,9 +34,10 @@ func Register(e *gin.Engine, configuration *config.Config) {
 	g.POST("/saved-queries", v1.CreateSavedQuery)
 
 	// nodes
+	g.GET("/nodes/:key", v1.Node)
 	g.DELETE("/nodes/:key", v1.DeleteNode)
 	// g.GET("/nodes", v1.Nodes)
-	// g.PUT("/nodes/:id", v1.UpdateNode)
+	g.POST("/nodes/:key", v1.UpdateNode)
 
 	// websocket
 	g.GET("/websocket", v1.Websocket)

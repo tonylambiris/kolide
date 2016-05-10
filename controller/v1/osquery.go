@@ -162,7 +162,7 @@ func OSQConfig(c *gin.Context) {
 
 // OSQLog receives a osquery log json object
 func OSQLog(c *gin.Context) {
-	req := osquery.LogStatusReq{}
+	req := osquery.LogReq{}
 
 	d := helpers.GetBody(c)
 
@@ -171,14 +171,29 @@ func OSQLog(c *gin.Context) {
 		return
 	}
 
-	// if req.Type == "result" {
-	// log.Info("[LOG REQ]", req, string(d))
-	// }
+	if req.Type == "result" {
+		var result osquery.LogResultType
 
-	// helpers.JsonResp(c, 200, gin.H{
-	// "result": "IT WORKS!",
-	// "error":  nil,
-	// })
+		if err := json.Unmarshal(req.Data, &result); err != nil {
+			helpers.JsonError(c, 500, err)
+			return
+		}
+
+		log.Info(result)
+
+	} else if req.Type == "status" {
+		var status osquery.LogStatusType
+
+		if err := json.Unmarshal(req.Data, &status); err != nil {
+			helpers.JsonError(c, 500, err)
+			return
+		}
+
+		log.Info(status)
+
+	} else {
+		log.Error("unknown log type: ", req.Type)
+	}
 
 	helpers.JsonRaw(c, 200, gin.H{
 		"node_invalid": false,

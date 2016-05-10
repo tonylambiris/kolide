@@ -32,7 +32,7 @@ func Index(c *gin.Context) {
 		c.Set("Queries", &queries)
 	}
 
-	nodes, err := model.AllNodes()
+	nodes, err := model.AllNodes(nil)
 
 	if err != nil {
 		log.Error(err.Error())

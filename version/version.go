@@ -14,10 +14,10 @@ var (
 
 	// VersionMinor is for functionality
 	// in a backwards-compatible manner
-	VersionMinor = 1
+	VersionMinor = 2
 
 	// VersionPatch is for backwards-compatible bug fixes
-	VersionPatch = 5
+	VersionPatch = 3
 
 	// VersionBuild holds the git commit that was compiled.
 	// This will be filled in by the compiler.

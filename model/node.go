@@ -15,7 +15,7 @@ import (
 // nodeUpdateStatus loop to keep node information current
 // this loop is used in database.go
 func nodeUpdateStatus() error {
-	nodes, err := AllNodes()
+	nodes, err := AllNodes(nil)
 
 	if err != nil {
 		return err
@@ -44,10 +44,23 @@ type Node struct {
 	Updated time.Time `xorm:"UPDATED" json:"updated"`
 }
 
+// AllNodeOptions for AllNodes query
+type AllNodeOptions struct {
+	OnlyEnabled bool
+}
+
 // AllNodes Return all nodes in the database
-func AllNodes() ([]*Node, error) {
+func AllNodes(options *AllNodeOptions) ([]*Node, error) {
 	var nodes []*Node
-	err := x.Find(&nodes)
+	sess := x
+
+	if options != nil {
+		if options.OnlyEnabled {
+			x.Where("enabled = 1")
+		}
+	}
+
+	err := sess.Find(&nodes)
 
 	return nodes, err
 }
@@ -187,6 +200,13 @@ func (n *Node) Update() error {
 	if err != nil {
 		return err
 	}
+
+	msg := hub.Message{
+		Type: "node",
+		Data: n,
+	}
+
+	hub.Websocket.Broadcast <- msg.JSON()
 
 	return nil
 }

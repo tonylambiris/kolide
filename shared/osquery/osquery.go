@@ -1,6 +1,9 @@
 package osquery
 
-import "time"
+import (
+	"encoding/json"
+	"time"
+)
 
 // KeyReq is the normal request with node_key
 type KeyReq struct {
@@ -58,9 +61,14 @@ type LogStatusReq struct {
 	Type string          `json:"log_type"`
 }
 
-// LogResultReq is the request for json request logs
-type LogResultReq struct {
-	Data []LogResultType `json:"data"`
-	Key  string          `json:"node_key"`
-	Type string          `json:"log_type"`
+// LogHeader holds the common data for this type
+type LogHeader struct {
+	Key  string `json:"node_key"`
+	Type string `json:"log_type"`
+}
+
+// LogReq wrapper
+type LogReq struct {
+	LogHeader
+	Data json.RawMessage `json:"data"`
 }

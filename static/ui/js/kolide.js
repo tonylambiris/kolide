@@ -135,6 +135,73 @@ var Kolide = {
       });
     },
 
+    fetch: function(id, callback) {
+      var self = this;
+
+      var url = "/api/v1/nodes/" + id;
+      console.log(url);
+
+      $.ajax({
+        url: url,
+        dataType: "json",
+        type: "GET",
+        success: function(data) {
+          if (data.err) {
+            console.log("Error: ", err);
+            return;
+          }
+
+          if (typeof callback === "function") {
+            return callback(data.context.node);
+          }
+        }
+      });
+    },
+
+    Rename: function(id) {
+      console.log(id);
+
+      this.fetch(id, function(node) {
+
+        var box = Kolide.lbox.open(Kolide.Templates.renameNodeTemplate(node), {}, {
+          width: "760px",
+          afterClose: function() {
+            // editor.destroy();
+          },
+          afterOpen: function() {
+            // $("#save-query-name").focus()
+          },
+          onAction: function() {
+            var params = $('#rename-node-form').serialize();
+            console.log(params);
+
+            $.ajax({
+              url: "/api/v1/nodes/" + id,
+              type: "POST",
+              data: params,
+              success: function(data) {
+                $.limpClose();
+
+                if (data.error && data.error.length > 0) {
+                  Kolide.Flash.error(data.error);
+                } else {
+                  Kolide.Flash.success("Query saved successfully.");
+                }
+
+              },
+              error: function(a, b, c) {
+                // console.log(a,b,c)
+              }
+            })
+          }
+        });
+
+        box.open();
+
+      });
+
+    },
+
     commands: {
       confirm: function(data, callback) {
         var box = Kolide.lbox.open(Kolide.Templates.confirm(data), {}, {
@@ -399,6 +466,7 @@ var Kolide = {
       this.confirm = Handlebars.compile($("#confirm-template").html());
 
       this.querySelectHeader = Handlebars.compile($("#query-selected-header").html());
+      this.renameNodeTemplate = Handlebars.compile($("#rename-node-template").html());
 
       Handlebars.registerHelper("formatDate", function(datetime, format) {
         if (moment) {
@@ -632,6 +700,7 @@ var Kolide = {
         var n = results.context.results[node];
 
         if (n.timeout || !n.results) {
+          console.log("DEBUG CONTINUE:", n);
           continue;
         }
 
@@ -1009,6 +1078,11 @@ jQuery(document).ready(function($) {
       });
     });
 
+    $("a.rename-node").on("click", function(e) {
+      e.preventDefault();
+      Kolide.Node.Rename(id)
+    });
+
   }).on("click", function(event) {
     $("ul.custom-menu").hide();
   });
@@ -1023,12 +1097,12 @@ jQuery(document).ready(function($) {
     order: "desc"
   });
 
-  $(document).on("click", ".envdb-control a.save-query", function(e) {
+  $(document).on("click", ".kolide-control a.save-query", function(e) {
     e.preventDefault();
     Kolide.Query.Save({});
   });
 
-  $(document).on("click", ".envdb-control a.load-query", function(e) {
+  $(document).on("click", ".kolide-control a.load-query", function(e) {
     e.preventDefault();
     Kolide.Query.Load({});
   });
@@ -1061,7 +1135,7 @@ jQuery(document).ready(function($) {
   $(document).on("click", "i.hide-sidebar", function(e) {
     e.preventDefault();
     $("#sidebar").css("left", -230)
-    $("#header, #envdb-query, #node-tables").css("left", 0);
+    $("#header, #kolide-query, #node-tables").css("left", 0);
 
     if ($("#content").hasClass("node-view")) {
       $("#content").css("left", 230);
@@ -1081,10 +1155,14 @@ jQuery(document).ready(function($) {
     }
   });
 
+  $(document).on("keypress", "#limp-box form", function(event) { 
+    return event.keyCode != 13;
+  });
+
   $(document).on("click", "div.show-sidebar", function(e) {
     e.preventDefault();
     $("#sidebar").css("left", 0)
-    $("#header, #envdb-query, #node-tables").css("left", 230);
+    $("#header, #kolide-query, #node-tables").css("left", 230);
     $("div.show-sidebar").hide();
 
     if ($("#content").hasClass("node-view")) {
