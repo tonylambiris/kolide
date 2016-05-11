@@ -40,8 +40,8 @@ var (
 
 	cmdRedisAddress   = app.Flag("redis-address", "redis network address").PlaceHolder(":6379").OverrideDefaultFromEnvar("KOLIDE_REDIS_ADDRESS").String()
 	cmdRedisProtocol  = app.Flag("redis-protocol", "redis network protocol").OverrideDefaultFromEnvar("KOLIDE_REDIS_PROTOCOL").Default("tcp").String()
-	cmdRedisSize      = app.Flag("redis-size", "redis maximum number of idle connections").PlaceHolder("10").OverrideDefaultFromEnvar("KOLIDE_REDIS_ADDRESS").Int()
-	cmdRedisPassword  = app.Flag("redis-password", "redis password").PlaceHolder("secret").OverrideDefaultFromEnvar("KOLIDE_REDIS_ADDRESS").String()
+	cmdRedisSize      = app.Flag("redis-size", "redis maximum number of idle connections").PlaceHolder("10").OverrideDefaultFromEnvar("KOLIDE_REDIS_SIZE").Int()
+	cmdRedisPassword  = app.Flag("redis-password", "redis password").PlaceHolder("secret").OverrideDefaultFromEnvar("KOLIDE_REDIS_PASSWORD").String()
 	cmdRedisSecretKey = app.Flag("redis-secret-key", "redis secret key").PlaceHolder("secret").OverrideDefaultFromEnvar("KOLIDE_REDIS_SECRET_KEY").String()
 	// cmdRedisEncryptionKey = app.Flag("redis-encryption-key", "redis encryption key").PlaceHolder("secret").OverrideDefaultFromEnvar("KOLIDE_REDIS_ENCRYPTION_KEY").String()
 
