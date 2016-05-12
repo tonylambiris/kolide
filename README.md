@@ -12,7 +12,7 @@
 
 # What is osquery?
 
- > osquery allows you to easily ask questions about your Linux and OSX infrastructure. Whether your goal is intrusion  >detection, infrastructure reliability, or compliance, osquery gives you the ability to empower and inform a broad set of >organizations within your company." - via https://osquery.io/
+ > osquery allows you to easily ask questions about your Linux and OSX infrastructure. Whether your goal is intrusion  detection, infrastructure reliability, or compliance, osquery gives you the ability to empower and inform a broad set of organizations within your company." - via https://osquery.io/
 
 # Kolide Rest API & OSquery Remote API
 
