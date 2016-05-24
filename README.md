@@ -3,6 +3,7 @@
 # Kolide
 
 [![Build Status](http://komanda.io:8080/api/badges/mephux/kolide/status.svg)](http://komanda.io:8080/mephux/kolide)
+[![Go Report Card](https://goreportcard.com/badge/github.com/mephux/kolide)](https://goreportcard.com/report/github.com/mephux/kolide)
 
   Kolide is an agentless osquery (https://osquery.io/) web interface and remote api server. Kolide uses the osquery
   remote apis to do ad-hoc distributed queries, osqueryd configurations and the collection and processing of scheduled queries (packs). Kolide was designed to be extremely portable (a single binary) and performant while keeping 
