@@ -18,9 +18,9 @@ build: banner lint generate
 	@echo "Building ${NAME}..."
 	@mkdir -p bin/
 	@go build \
-    -ldflags "-X main.build=${BUILD_TAG}" \
+		-ldflags "-X main.build=${BUILD_TAG}" \
 		${ARGS} \
-    -o bin/${NAME}
+		-o bin/${NAME}
 
 banner:
 	@echo "${NAME}"
@@ -32,7 +32,7 @@ generate: cleanGoGenerate
 	@echo "Running go generate..."
 	@go generate $$(go list ./... | grep -v /vendor/)
 
-deps: 
+deps:
 	@echo "Installing build deps"
 	go get -u github.com/golang/lint/golint
 	go get github.com/jteeuwen/go-bindata/...
@@ -49,9 +49,11 @@ package: setup strip rpm64
 setup:
 	@mkdir -p package/root/opt/${NAME}/bin/
 	@mkdir -p package/root/etc/${NAME}/
+	@mkdir -p package/root/usr/lib/systemd/system/
 	@mkdir -p package/output/
 	@cp -R ./bin/${NAME} package/root/opt/${NAME}/bin
 	@cp -R ./shared/${NAME}.toml package/root/etc/${NAME}/${NAME}.toml
+	@cp -R ./shared/${NAME}.service package/root/usr/lib/systemd/system/${NAME}.service
 	@./bin/${NAME} --version 2> VERSION
 
 test:
@@ -64,7 +66,7 @@ certs:
 
 certs-remote:
 	mkdir -p tmp
-	openssl req -x509 -sha256 -nodes -days 365 -subj "/C=us/ST=ks/L=kolide/O=kolide/CN=${cn}" -newkey rsa:2048 -keyout tmp/${NAME}.key -out tmp/${NAME}.crt 
+	openssl req -x509 -sha256 -nodes -days 365 -subj "/C=us/ST=ks/L=kolide/O=kolide/CN=${cn}" -newkey rsa:2048 -keyout tmp/${NAME}.key -out tmp/${NAME}.crt
 	cp -R ./tmp/* /tmp/
 
 # docker dev
@@ -82,7 +84,8 @@ rpm64:
 		--rpm-compression bzip2 --rpm-os linux \
 		--rpm-user ${NAME} --rpm-group ${NAME} \
 		--force \
-		--after-install scripts/rpm/post-install.sh \
+		--before-install scripts/rpm/pre-inst.sh \
+		--after-install scripts/rpm/post-inst.sh \
 		--before-remove scripts/rpm/pre-rm.sh \
 		--after-remove scripts/rpm/post-rm.sh \
 		--url $(WEBSITE) \
