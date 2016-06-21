@@ -59,6 +59,8 @@
 
   `GO15VENDOREXPERIMENT=1 go get github.com/mephux/kolide`
 
+  (Note that errors referencing `Asset`, `AssetDir`, `AssetInfo` and `MustAsset` can be ignored for now. They will be fixed later by `go-bindata` in `make`.)
+
   or
 
   `git clone https://github.com/mephux/kolide.git`
@@ -68,8 +70,12 @@
 
   `make deps`
 
-  4. Start postgres and redis
-    
+  4. Build the code.
+
+  `make`
+
+  5. Start postgres and redis
+
     The easiest way to start writing code is to use docker/docker-compose.
 
     * `make up` will run docker-compose and bootstrap the deps
