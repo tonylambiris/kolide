@@ -44,12 +44,26 @@ type LogStatusType struct {
 	Message  string `json:"message"`
 }
 
+// OsqueryTimestamp is a type alias used for parsing osquery's timestamp format
+type OsqueryTimestamp time.Time
+
+// UnmarshalJSON is the custom parsing logic for the osquery timestamp format
+func (ot *OsqueryTimestamp) UnmarshalJSON(b []byte) (err error) {
+	if b[0] == '"' && b[len(b)-1] == '"' {
+		b = b[1 : len(b)-1]
+	}
+	var t time.Time
+	t, err = time.Parse("Mon Jan 2 15:04:05 2006 MST", string(b))
+	*ot = OsqueryTimestamp(t)
+	return
+}
+
 // LogResultType is the request json result set
 type LogResultType struct {
 	Name      string      `json:"name"`
 	Id        string      `json:"hostIdentifier"`
 	UnixTime  string      `json:"unixTime"`
-	Timestamp time.Time   `json:"calendarTime"`
+	Timestamp OsqueryTimestamp   `json:"calendarTime"`
 	Results   interface{} `json:"columns"`
 	Action    string      `json:"action"`
 }

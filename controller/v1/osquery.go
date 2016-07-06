@@ -172,7 +172,7 @@ func OSQLog(c *gin.Context) {
 	}
 
 	if req.Type == "result" {
-		var result osquery.LogResultType
+		var result []osquery.LogResultType
 
 		if err := json.Unmarshal(req.Data, &result); err != nil {
 			helpers.JsonError(c, 500, err)
@@ -182,7 +182,7 @@ func OSQLog(c *gin.Context) {
 		log.Info(result)
 
 	} else if req.Type == "status" {
-		var status osquery.LogStatusType
+		var status []osquery.LogStatusType
 
 		if err := json.Unmarshal(req.Data, &status); err != nil {
 			helpers.JsonError(c, 500, err)
