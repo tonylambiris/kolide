@@ -153,13 +153,13 @@ key = "./tmp/kolide.key"
   ```bash
   #!/usr/bin/env bash
 
-  export SECRET="kolidedev"
+  SECRET="kolidedev"
   SERVER="localhost:8000"
-  CERT=./tmp/kolide.crt
+  CERT="./tmp/kolide.crt"
 
   echo $PWD
 
-  sudo osqueryd \
+  sudo -E osqueryd \
     --verbose \
     --pidfile /tmp/osquery.pid \
     --host_identifier uuid \
