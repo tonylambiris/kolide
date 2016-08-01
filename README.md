@@ -83,7 +83,7 @@
 
 ## Certs/Openssl
 
-  `make certs-remote cn=kolide.io`
+  `make certs-remote cn=example.com` // change this to your domain
 
   This will drop a kolide.crt and kolide.key into ./tmp and copy them to /tmp
 
