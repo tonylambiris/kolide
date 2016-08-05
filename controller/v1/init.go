@@ -1,6 +1,6 @@
 package v1
 
-import "github.com/mephux/kolide/config"
+import "github.com/kolide/kolide/config"
 
 var (
 	configuration *config.Config

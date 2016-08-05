@@ -20,7 +20,7 @@ key = ""
 [server]
 # enroll_secret = "kolidedev"
 query_timeout = "20s"
-enroll_secret = ""
+enroll_secret = "testing"
 production = false
 debug = false
 address = ":8000"

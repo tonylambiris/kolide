@@ -4,8 +4,8 @@ import (
 	"sync"
 
 	log "github.com/Sirupsen/logrus"
-	"github.com/mephux/kolide/model"
-	"github.com/mephux/kolide/shared/osquery"
+	"github.com/kolide/kolide/model"
+	"github.com/kolide/kolide/shared/osquery"
 )
 
 // Control global

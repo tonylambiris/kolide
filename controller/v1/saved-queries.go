@@ -5,8 +5,8 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mephux/kolide/controller/helpers"
-	"github.com/mephux/kolide/model"
+	"github.com/kolide/kolide/controller/helpers"
+	"github.com/kolide/kolide/model"
 )
 
 // DeleteSavedQuery route

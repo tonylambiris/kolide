@@ -4,10 +4,10 @@ import (
 	"encoding/json"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mephux/kolide/controller/helpers"
-	"github.com/mephux/kolide/model"
-	"github.com/mephux/kolide/shared/osquery"
-	"github.com/mephux/kolide/shared/querycontrol"
+	"github.com/kolide/kolide/controller/helpers"
+	"github.com/kolide/kolide/model"
+	"github.com/kolide/kolide/shared/osquery"
+	"github.com/kolide/kolide/shared/querycontrol"
 )
 
 // Query all or some nodes

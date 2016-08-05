@@ -1,6 +1,6 @@
 package osquery
 
-import "github.com/mephux/kolide/config"
+import "github.com/kolide/kolide/config"
 
 // Query holds user session requested queries
 type Query struct {

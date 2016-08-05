@@ -5,7 +5,7 @@ import (
 	"net/http"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/mephux/kolide/model"
+	"github.com/kolide/kolide/model"
 )
 
 // SecretFunc type

@@ -5,7 +5,7 @@ import (
 
 	jwt_lib "github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/mephux/kolide/router/middleware/session"
+	"github.com/kolide/kolide/router/middleware/session"
 )
 
 // Auth is gin middleware to check for the jwt session and

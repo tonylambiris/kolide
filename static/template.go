@@ -5,8 +5,8 @@ import (
 	"io/ioutil"
 	"path/filepath"
 
-	"github.com/mephux/kolide/config"
-	"github.com/mephux/kolide/controller/v1"
+	"github.com/kolide/kolide/config"
+	"github.com/kolide/kolide/controller/v1"
 )
 
 // Load templates

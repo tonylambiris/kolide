@@ -6,8 +6,8 @@ import (
 	log "github.com/Sirupsen/logrus"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mephux/kolide/model"
-	"github.com/mephux/kolide/shared/token"
+	"github.com/kolide/kolide/model"
+	"github.com/kolide/kolide/shared/token"
 )
 
 // User retuns the session user context

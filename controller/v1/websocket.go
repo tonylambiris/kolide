@@ -8,7 +8,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
-	"github.com/mephux/kolide/shared/hub"
+	"github.com/kolide/kolide/shared/hub"
 )
 
 const (

@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mephux/kolide/version"
+	"github.com/kolide/kolide/version"
 )
 
 // NoCache is a middleware function that appends headers

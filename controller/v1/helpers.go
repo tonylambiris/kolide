@@ -3,8 +3,8 @@ package v1
 import (
 	"html/template"
 
-	"github.com/mephux/kolide/controller/helpers"
-	"github.com/mephux/kolide/version"
+	"github.com/kolide/kolide/controller/helpers"
+	"github.com/kolide/kolide/version"
 )
 
 // HelperFunctions to use while rendering content

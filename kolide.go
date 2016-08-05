@@ -7,12 +7,12 @@ import (
 
 	"github.com/Sirupsen/logrus"
 	"github.com/gin-gonic/gin"
-	"github.com/mephux/kolide/config"
-	"github.com/mephux/kolide/model"
-	"github.com/mephux/kolide/router"
-	"github.com/mephux/kolide/server"
-	"github.com/mephux/kolide/shared/formatter"
-	"github.com/mephux/kolide/version"
+	"github.com/kolide/kolide/config"
+	"github.com/kolide/kolide/model"
+	"github.com/kolide/kolide/router"
+	"github.com/kolide/kolide/server"
+	"github.com/kolide/kolide/shared/formatter"
+	"github.com/kolide/kolide/version"
 
 	kingpin "gopkg.in/alecthomas/kingpin.v2"
 )
