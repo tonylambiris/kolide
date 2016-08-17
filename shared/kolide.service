@@ -1,12 +1,11 @@
 [Unit]
 Description=Kolide Web Interface
-ConditionPathExists=/etc/kolide
 
 [Service]
 User=kolide
 Group=kolide
 OOMScoreAdjust=-1000
-ExecStart=/opt/kolide/bin/kolide --config /etc/kolide/kolide.toml
+ExecStart=/usr/bin/kolide --config /etc/kolide/kolide.toml
 
 [Install]
 WantedBy=multi-user.target
