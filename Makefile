@@ -1,11 +1,11 @@
 export GO15VENDOREXPERIMENT=1
 
 DEPS = $(go list -f '{{range .TestImports}}{{.}} {{end}}' ./... | grep -v /vendor/)
-NAME="kolide"
-WEBSITE="https://${NAME}.io"
+NAME=kolide
+WEBSITE=https://$(NAME).io
 DESCRIPTION="Ask your environment questions"
 
-BUILDVERSION=$(shell cat VERSION)
+BUILDVERSION=$(shell cat package/VERSION)
 GO_VERSION=$(shell go version)
 
 # Get the git commit
@@ -15,15 +15,15 @@ BUILD_COUNT=$(shell git rev-list --count HEAD)
 BUILD_TAG="${BUILD_COUNT}.${SHA}"
 
 build: banner lint generate
-	@echo "Building ${NAME}..."
+	@echo "Building $(NAME)..."
 	@mkdir -p bin/
 	@go build \
 		-ldflags "-X main.build=${BUILD_TAG}" \
 		${ARGS} \
-		-o bin/${NAME}
+		-o bin/$(NAME)
 
 banner:
-	@echo "${NAME}"
+	@echo "$(NAME)"
 	@echo "${GO_VERSION}"
 	@echo "Go Path: ${GOPATH}"
 	@echo
@@ -44,29 +44,29 @@ lint:
 		golint -min_confidence=1 $$pkg ; \
 		done
 
-package: setup strip rpm64
+package: setup strip rpm64 deb64
 
 setup:
-	@mkdir -p package/root/opt/${NAME}/bin/
-	@mkdir -p package/root/etc/${NAME}/
+	@mkdir -p package/root/usr/bin/
+	@mkdir -p package/root/etc/$(NAME)/
 	@mkdir -p package/root/usr/lib/systemd/system/
 	@mkdir -p package/output/
-	@cp -R ./bin/${NAME} package/root/opt/${NAME}/bin
-	@cp -R ./shared/${NAME}.toml package/root/etc/${NAME}/${NAME}.toml
-	@cp -R ./shared/${NAME}.service package/root/usr/lib/systemd/system/${NAME}.service
-	@./bin/${NAME} --version 2> VERSION
+	@cp -R ./bin/$(NAME) package/root/usr/bin/$(NAME)
+	@cp -R ./shared/$(NAME).toml package/root/etc/$(NAME)/$(NAME).toml
+	@cp -R ./shared/$(NAME).service package/root/usr/lib/systemd/system/$(NAME).service
+	@./bin/$(NAME) --version 2> package/VERSION
 
 test:
 	go list ./... | xargs -n1 go test
 
 certs:
 	mkdir -p tmp
-	openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout tmp/${NAME}.key -out tmp/${NAME}.crt
+	openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout tmp/$(NAME).key -out tmp/$(NAME).crt
 	cp -R ./tmp/* /tmp/
 
 certs-remote:
 	mkdir -p tmp
-	openssl req -x509 -sha256 -nodes -days 365 -subj "/C=us/ST=ks/L=kolide/O=kolide/CN=${cn}" -newkey rsa:2048 -keyout tmp/${NAME}.key -out tmp/${NAME}.crt
+	openssl req -x509 -sha256 -nodes -days 365 -subj "/C=us/ST=ks/L=kolide/O=kolide/CN=${cn}" -newkey rsa:2048 -keyout tmp/$(NAME).key -out tmp/$(NAME).crt
 	cp -R ./tmp/* /tmp/
 
 # docker dev
@@ -77,22 +77,37 @@ down:
 	docker-compose down
 
 strip:
-	strip bin/${NAME}
+	strip bin/$(NAME)
 
 rpm64:
-	fpm -s dir -t rpm -n $(NAME) -v $(BUILDVERSION) -p package/output/${NAME}-$(BUILDVERSION)-amd64.rpm \
-		--rpm-compression bzip2 --rpm-os linux \
-		--rpm-user ${NAME} --rpm-group ${NAME} \
+	fpm -s dir -t rpm -n $(NAME) -v $(BUILDVERSION) -p package/output/$(NAME)-$(BUILDVERSION)-amd64.rpm \
+		--rpm-compression xz --rpm-os linux \
 		--force \
-		--before-install scripts/rpm/pre-inst.sh \
-		--after-install scripts/rpm/post-inst.sh \
-		--before-remove scripts/rpm/pre-rm.sh \
-		--after-remove scripts/rpm/post-rm.sh \
+		--before-install scripts/package/pre-inst.sh \
+		--after-install scripts/package/post-inst.sh \
+		--before-remove scripts/package/pre-rm.sh \
+		--after-remove scripts/package/post-rm.sh \
 		--url $(WEBSITE) \
 		--description $(DESCRIPTION) \
-		-m "Dustin Wills Webber <dustin.webber@gmail.com>" \
-		--vendor "Dustin Willis Webber" -a amd64 \
-		--config-files etc/${NAME}/${NAME}.toml \
+		-m "kolide <engineering@kolide.co>" \
+		--vendor "kolide" -a amd64 \
+		--config-files etc/$(NAME)/$(NAME).toml \
+		--exclude */**.gitkeep \
+		package/root/=/
+
+deb64:
+	fpm -s dir -t deb -n $(NAME) -v $(BUILDVERSION) -p package/output/$(NAME)-$(BUILDVERSION)-amd64.deb \
+		--force \
+		--deb-compression xz \
+		--before-install scripts/package/pre-inst.sh \
+		--after-install scripts/package/post-inst.sh \
+		--before-remove scripts/package/pre-rm.sh \
+		--after-remove scripts/package/post-rm.sh \
+		--url $(WEBSITE) \
+		--description $(DESCRIPTION) \
+		-m "kolide <engineering@kolide.co>" \
+		--vendor "kolide" -a amd64 \
+		--config-files etc/$(NAME)/$(NAME).toml \
 		--exclude */**.gitkeep \
 		package/root/=/
 
@@ -104,7 +119,6 @@ cleanServer: cleanGoGenerate
 	@rm -rf doc/
 	@rm -rf package/
 	@rm -rf bin/
-	@rm -rf VERSION
 	@rm -rf tmp/
 
 clean: cleanServer

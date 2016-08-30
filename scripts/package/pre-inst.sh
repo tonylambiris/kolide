@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if ! getent passwd kolide &>/dev/null; then
-	useradd -r -u 379 -U -d /opt/kolide -s /sbin/nologin -c kolide -m kolide
+	useradd --system -u 379 -U -d / -s /sbin/nologin -c kolide kolide
 fi
 
 exit 0
