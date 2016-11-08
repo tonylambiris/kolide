@@ -44,9 +44,9 @@ lint:
 		golint -min_confidence=1 $$pkg ; \
 		done
 
-package: setup strip rpm64 deb64
+package: setup rpm64 deb64
 
-setup:
+setup: build strip
 	@mkdir -p package/root/usr/bin/
 	@mkdir -p package/root/etc/$(NAME)/
 	@mkdir -p package/root/usr/lib/systemd/system/
@@ -66,7 +66,7 @@ certs:
 
 certs-remote:
 	mkdir -p tmp
-	openssl req -x509 -sha256 -nodes -days 365 -subj "/C=us/ST=ks/L=kolide/O=kolide/CN=${cn}" -newkey rsa:2048 -keyout tmp/$(NAME).key -out tmp/$(NAME).crt
+	openssl req -x509 -sha256 -nodes -days 365 -subj "/C=us/ST=ks/L=kolide/O=kolide/CN=$$cn" -newkey rsa:2048 -keyout tmp/$(NAME).key -out tmp/$(NAME).crt
 	cp -R ./tmp/* /tmp/
 
 # docker dev
@@ -79,8 +79,8 @@ down:
 strip:
 	strip bin/$(NAME)
 
-rpm64:
-	fpm -s dir -t rpm -n $(NAME) -v $(BUILDVERSION) -p package/output/$(NAME)-$(BUILDVERSION)-amd64.rpm \
+rpm64: setup
+	fpm -s dir -t rpm -n $(NAME) -v $(BUILDVERSION) -p package/output/ \
 		--rpm-compression xz --rpm-os linux \
 		--force \
 		--before-install scripts/package/pre-inst.sh \
@@ -95,8 +95,8 @@ rpm64:
 		--exclude */**.gitkeep \
 		package/root/=/
 
-deb64:
-	fpm -s dir -t deb -n $(NAME) -v $(BUILDVERSION) -p package/output/$(NAME)-$(BUILDVERSION)-amd64.deb \
+deb64: setup
+	fpm -s dir -t deb -n $(NAME) -v $(BUILDVERSION) -p package/output/ \
 		--force \
 		--deb-compression xz \
 		--before-install scripts/package/pre-inst.sh \
