@@ -2,14 +2,20 @@
 
 # openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout private.key -out certificate.crt
 
-export SECRET="kolidedev"
-# SERVER="localhost:8000"
-SERVER="localhost:8000"
-CERT=./tmp/kolide.crt
+CERT=${CERT:-./tmp/kolide.crt}
+KEY=${KEY:-./tmp/kolide.key}
 
-echo $PWD
+CN="$(openssl x509 -in $CERT -text -noout 2>/dev/null | \
+	awk '$1 ~ /Subject:/ {print $6}' | cut -d '=' -f 2)"
+SERVER="${SERVER:-${CN}:8000}"
 
-sudo osqueryd \
+export SECRET=${SECRET=kolidedev}
+
+echo
+echo "$PWD (SERVER=$SERVER CERT=$CERT SECRET=$SECRET)"
+echo
+
+sudo -E osqueryd \
   --verbose \
   --pidfile /tmp/osquery.pid \
   --host_identifier uuid \
@@ -26,11 +32,13 @@ sudo osqueryd \
   --distributed_tls_max_attempts 3 \
   --distributed_tls_read_endpoint /api/v1/osquery/read \
   --distributed_tls_write_endpoint /api/v1/osquery/write \
-  --tls_dump true \
+  --tls_dump=true \
   --logger_path /tmp/ \
   --logger_plugin tls \
   --logger_tls_endpoint /api/v1/osquery/log \
   --logger_tls_period 5 \
   --tls_hostname $SERVER \
   --tls_server_certs $CERT \
+  --tls_client_cert $CERT \
+  --tls_client_key $KEY \
   --pack_delimiter /
